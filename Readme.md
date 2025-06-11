@@ -82,7 +82,7 @@ To ensure below denpencies are installed in the
 ## Instructions to Run Tests
 
 Clone the repository:
-git clone https://github.com/Rajashrilbp/software-testing-assignment
+git clone https://github.com/Rajashrilbp/software-testing-assignment/
 ---
 ## Framework Structure
 
