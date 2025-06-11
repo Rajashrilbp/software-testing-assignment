@@ -1,34 +1,62 @@
 package org.merchant.pages;
 
 import dev.failsafe.internal.util.Assert;
+import org.merchant.driver.DriverClass;
 import org.merchant.driver.DriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class ForgotPasswordPage {
 
-    WebElement isMsgValid;
-    WebDriver driver = DriverManager.getDriver();
-    public boolean isVisibleForgotPassword() throws InterruptedException {
 
-        WebElement actualForgotPwdText = DriverManager.getDriver().findElement(By.xpath("//a[@class=\"forgottext float-end c-pointer\"]"));
-        boolean isVisible = actualForgotPwdText.isDisplayed();
+    private WebDriverWait wait;
+    WebDriver driver;
+    private By forgotLink = By.xpath("//a[contains(@class,'forgottext')]");
+    private By usernameInput = By.id("fullName");
+    private By sendBtn = By.xpath("//button[contains(text(),'Send')]");
+    private By errorMsg = By.xpath("//*[contains(text(),'Username not exists')]");
+    private By instaIcon = By.xpath("//i[@class='fa-brands fa-instagram']");
 
-        if(isVisible){
-            actualForgotPwdText.click();
-            driver.findElement(By.xpath("//input[@id=\"fullName\"]")).sendKeys("9999999999");
-            driver.findElement(By.xpath("//button[contains(text(),\"Send\")]")).click();
-            Thread.sleep(2000);
-            isMsgValid = driver.findElement(By.xpath("//div[contains(text(),\"Username not exists\")]"));
-
-        }
-        else
-        {
-            driver.findElement(By.xpath("//i[@class=\"fa-brands fa-instagram\"]")).click();
-            //String actualUrl = DriverManager.getDriver().getCurrentUrl();
-            //System.out.println("Log: \"Forgot password option is not present at login page\" in the HTML report.");
-        }
-        return isMsgValid.isDisplayed();
+    public ForgotPasswordPage() {
+        this.driver = DriverManager.getDriver();
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
+
+    public boolean isVisibleForgotPassword() {
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(forgotLink));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    public boolean ifVisible(String username) {
+        driver.findElement(forgotLink).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(usernameInput)).sendKeys(username);
+        driver.findElement(sendBtn).click();
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(errorMsg));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+    public boolean ifNotVisible(){
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(instaIcon)).click();
+            return true;
+        }
+        catch(TimeoutException e){
+            return false;
+        }
+
+    }
+
 }

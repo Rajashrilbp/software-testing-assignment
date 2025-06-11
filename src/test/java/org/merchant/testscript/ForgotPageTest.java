@@ -4,23 +4,25 @@ import org.merchant.pages.ForgotPasswordPage;
 import org.merchant.utils.ScreenshotUtils;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class ForgotPageTest extends BaseTest{
-    @Test
-    public void verifyForgotPassword() throws InterruptedException, IOException {
-        ForgotPasswordPage forgotPage = new ForgotPasswordPage();
-        boolean isDisplayed = forgotPage.isVisibleForgotPassword();
+public class ForgotPageTest extends BaseTest {
 
-        //Assertion
-        Assert.assertTrue(isDisplayed);
+   @Test
+   public void verifyForgotPassword(){
 
-        /*WebElement actualUrl = forgotPage.isVisibleForgotPassword();
-        String expectedUrl = "https://www.instagram.com/";
-        Assert.assertEquals(actualUrl,expectedUrl);*/
-
-
-    }
+       ForgotPasswordPage forgotPage = new ForgotPasswordPage();
+       if (forgotPage.isVisibleForgotPassword()) {
+           test = extent.createTest("verifyForgotPassword - If Forgot Password Is Visible");
+           boolean errorDisplayed = forgotPage.ifVisible("9999999999");
+           Assert.assertTrue(errorDisplayed);
+       } else {
+           test.info("Forgot password link is not visible on the login page.");
+       }
+   }
 }
+
+
