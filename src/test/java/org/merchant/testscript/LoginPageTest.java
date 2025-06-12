@@ -1,12 +1,15 @@
 package org.merchant.testscript;
 
+import lombok.extern.slf4j.Slf4j;
 import org.merchant.pages.LoginPage;
+import org.merchant.utils.ScreenshotUtils;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class LoginPageTest extends BaseTest {
 
-    @Test
+    @Test(priority=1)
     public void verifyLoginElements() {
         test = extent.createTest("verifyLoginElements - Page Load Performance");
 
@@ -16,7 +19,7 @@ public class LoginPageTest extends BaseTest {
         Assert.assertTrue(totalTimeTaken > 30000 ,"Login elements take too long to appear."+totalTimeTaken+" ms");
     }
 
-    @Test
+    @Test(priority = 2)
     public void verifyLogin() throws Exception {
         test = extent.createTest("verifyLogin1 - Invalid Login");
         LoginPage loginpage = new LoginPage();
