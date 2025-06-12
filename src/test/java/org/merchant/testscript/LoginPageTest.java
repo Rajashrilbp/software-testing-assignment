@@ -1,28 +1,26 @@
 package org.merchant.testscript;
 
-import lombok.extern.slf4j.Slf4j;
 import org.merchant.pages.LoginPage;
-import org.merchant.utils.ScreenshotUtils;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-
-public class LoginPageTest extends BaseTest{
+public class LoginPageTest extends BaseTest {
 
     @Test
-    public void verifyLogin() throws InterruptedException, IOException {
+    public void verifyLoginElements() {
+        test = extent.createTest("verifyLoginElements - Page Load Performance");
 
         LoginPage loginpage = new LoginPage();
-        //For Test Case 1: Page Load Performance – Login Elements
-        //long totalTimeTaken = loginpage.pageLoadToLoginApplication();
-        //Assert.assertTrue(totalTimeTaken > 30000,"Login Elements Take Too Long To Appear" );
+        long totalTimeTaken = loginpage.pageLoadToLoginApplication();
+        test.info("Login elements loaded in "+totalTimeTaken+" ms ");
+        Assert.assertTrue(totalTimeTaken > 30000 ,"Login elements take too long to appear."+totalTimeTaken+" ms");
+    }
 
-        //For Test Case 2 : Invalid Login Validation
-        boolean msg = loginpage.loginToApplication("9999999999","Amitabh");
-        //ScreenshotUtils.captureScreenshot();
-        //Assertion
-        Assert.assertTrue(msg);
+    @Test
+    public void verifyLogin() throws Exception {
+        test = extent.createTest("verifyLogin1 - Invalid Login");
+        LoginPage loginpage = new LoginPage();
+        boolean isDisplayed = loginpage.loginToApplication1("9999999999", "Amitabh");
+        Assert.assertTrue(isDisplayed);
     }
 }

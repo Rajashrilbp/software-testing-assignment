@@ -10,7 +10,6 @@ public class DriverClass {
       //  WebDriver driver = new ChromeDriver();
         DriverManager.setDriver(new ChromeDriver());
         DriverManager.getDriver().get("https://merchant1.uatdev.in/auth/login");
-        Thread.sleep(2000);
-
+        //Thread.sleep(2000);
     }
 }

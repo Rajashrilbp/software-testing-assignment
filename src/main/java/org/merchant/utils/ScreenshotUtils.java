@@ -12,15 +12,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ScreenshotUtils {
-    public static void captureScreenshot() throws IOException {
-        SimpleDateFormat formatObj = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        String formattedDate = formatObj.format(new Date());
-        //Taking ScreenShot
-        TakesScreenshot ts = (TakesScreenshot) DriverManager.getDriver();
-        File srcFile = ts.getScreenshotAs(OutputType.FILE);
-        String projectPath = System.getProperty("user.dir");
-        String path = projectPath + "\\src\\test\\resources\\screenshots\\";
-        File destFile = new File(path);
-        FileUtils.copyFile(srcFile, destFile);
+
+    public static String captureScreenshot(String testName) throws IOException {
+        try {
+            TakesScreenshot ts = (TakesScreenshot) DriverManager.getDriver();
+            File srcFile = ts.getScreenshotAs(OutputType.FILE);
+            String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+            String screenshotPath = "src/test/resources/screenshots/" + testName + "_" + timestamp + ".png";
+            File destFile = new File(screenshotPath);
+            FileUtils.copyFile(srcFile, destFile);
+            return destFile.getAbsolutePath();
+        }
+        catch(Exception e){
+            return null;
+        }
+
     }
 }
